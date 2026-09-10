@@ -1,3 +1,11 @@
+# OpenPak nn-soap — NUS / ECS SOAP for Wii U and 3DS
+
+Fork of Pretendo's `SOAP` (AGPL-3.0). Serves the Nintendo Update Server and eShop ECS SOAP
+endpoints for titles and tickets an operator provides (nothing ships in the image). Image:
+`ghcr.io/openpak/nn-soap` on tag, listening on 20110; mount content at `/app/src/titles`.
+
+---
+
 # SOAP
 
 <p align="center">
