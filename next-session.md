@@ -1,12 +1,15 @@
 # Next session — nn-soap
 
-Updated 2026-09-15.
+Updated 2026-09-24.
 
 NUS/ECS SOAP for Wii U and 3DS eShop: Pretendo's SOAP (AGPL), containerised
 and rewired for OpenPak. Deployed 2026-09-10 on port 20110 behind the Traefik
 TLS leaf for the `*.shop.nintendo.net` / `*.shop.nintendowifi.net` names,
-tagged `v0.1.0`, not console-verified. Tree is clean apart from placeholder
-`CHANGELOG.md` / `docs/` / `prds/`.
+tagged `v0.1.0`, not console-verified. Tree clean.
+
+Current status 2026-09-24: latest tag still v0.1.0 (a1a171c). Since then only
+CI on `v*.*.*` tags (0e4c8f2) and docs commits (`CHANGELOG.md`, `docs/`,
+`prds/` now committed).
 
 ## Where things stand
 
