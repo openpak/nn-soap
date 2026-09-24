@@ -3,6 +3,10 @@
 Generated from git history on 2026-09-15. `git log` stays the source
 of truth; this file is the readable summary.
 
+## v0.1.1 — 2026-09-24
+
+- deps: express 4.22, body-parser, qs, path-to-regexp, send, serve-static, cookie, morgan patched (Dependabot)
+
 ## v0.1.0 — 2026-09-10
 
 - OpenPak fork: container image and tag-driven ghcr release [a1a171c]
