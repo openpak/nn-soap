@@ -45,9 +45,9 @@ CI on `v*.*.*` tags (0e4c8f2) and docs commits (`CHANGELOG.md`, `docs/`,
 
 - `README.md` — layout, TIV note, the two 3DS warnings in full.
 - `src/wup/`, `src/ctr/` — the two SOAP surfaces and their routes.
-- `../../prds/platform-wiiu-prd.md`, `../../prds/platform-3ds-prd.md` —
+- `../../../../prds/platform-wiiu-prd.md`, `../../../../prds/platform-3ds-prd.md` —
   server-side inventory rows that name this service.
-- `../../ports.md` — row 20110 and the Traefik TLS row.
+- `../../../../docs/ports.md` — row 20110 and the Traefik TLS row.
 
 ## Scratch (research and throwaway work)
 
