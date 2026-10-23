@@ -47,7 +47,7 @@ CI on `v*.*.*` tags (0e4c8f2) and docs commits (`CHANGELOG.md`, `docs/`,
 - `src/wup/`, `src/ctr/` — the two SOAP surfaces and their routes.
 - `../../../../prds/platform-wiiu-prd.md`, `../../../../prds/platform-3ds-prd.md` —
   server-side inventory rows that name this service.
-- `../../../../docs/ports.md` — row 20110 and the Traefik TLS row.
+- https://docs.openpak.org/contributors/ports/ — row 20110 and the Traefik TLS row.
 
 ## Scratch (research and throwaway work)
 
@@ -56,4 +56,4 @@ strace and emulator logs, probe harnesses: put them in
 `~/REPOS/Openpak/scratch/<topic>`. That folder is a local mount of the media pool,
 outside every repository, so nothing in it is committed. Never use `/tmp` (a
 shared 15 GB RAM disk) or elsewhere on `/home` for this. Keys and signing
-material never go there. Rule: `docs/playbooks/conventions.md` in the workspace.
+material never go there. Rule: <https://docs.openpak.org/contributors/conventions/>.
