@@ -1,64 +1,41 @@
-# OpenPak nn-soap — NUS / ECS SOAP for Wii U and 3DS
+# Wii U/3DS SOAP Server
 
-Fork of Pretendo's `SOAP` (AGPL-3.0). Serves the Nintendo Update Server and eShop ECS SOAP
-endpoints for titles and tickets an operator provides (nothing ships in the image). Image:
-`ghcr.io/openpak/nn-soap` on tag, listening on 20110; mount content at `/app/src/titles`.
+OpenPak's Wii U/3DS SOAP Server.
 
----
+| | |
+| --- | --- |
+| Network | Wii U, 3DS |
+| Role | NUS and eShop ECS SOAP: serves the Nintendo Update Server and ECS endpoints for titles and tickets an operator provides |
+| Image | `ghcr.io/openpak/nn-soap` |
+| Based on | [Pretendo `SOAP`](https://github.com/PretendoNetwork/SOAP) (AGPL-3.0) |
+| Licence | AGPL-3.0-only |
 
-# SOAP
+## What it serves
 
-<p align="center">
-    <a href="https://discord.gg/DThgbba" target="_blank">
-        <img src="https://discordapp.com/api/guilds/408718485913468928/widget.png?style=banner3">
-    </a>
-</p>
+| Surface | What |
+| --- | --- |
+| Wii U (`src/wup/`) | NUS and ECS SOAP routes: IAS, CCS, CCS CDN and ECS |
+| 3DS (`src/ctr/`) | eShop SOAP routes: CCS, CCS CDN and ECS |
 
-# Overview
-The SOAP server contains several key services for the WiiU and 3DS, including NUS (NetUpdateSOAP, aka Nintendo Update Server) and ECS which serves title tickets and other data for the eShop
+Nothing ships in the image. Titles and tickets are mounted by the operator at `/app/src/titles`.
 
-# How to use
-This repo does not come with any titles or tickets by default. To serve titles and tickets, create a `titles` folder in the root of the repo. In the `titles` folder create 2 sub-folders, `wup` and `ctr`, for the WiiU and 3DS respectively. Inside each of these folders create 3 more sub-folders, `aoc`, `patch` and `title`, for DLC, updates, and base titles respectively. Create a folder named the title ID for the title you wish to serve in it's correct folder, and place the `title.tmd`, `title.tik` and encrypted contents inside.
+## Run
 
-Your directory structure should look something like:
-
-```
-/
-├── src/
-│   └── ....
-├── titles/
-│   ├── wup/
-│   │   ├── aoc/
-│   │   ├── patch/
-│   │   └── title/
-│   │       └── 0005000b10151a00/
-│   │           ├── title.tmd
-│   │           ├── title.tik
-│   │           ├── 00000000.app
-│   │           ├── 00000000.h3
-│   │           └── ....
-│   └── ctr/
-│       ├── aoc/
-│       ├── patch/
-│       └── title/
-│           └── 00040000001D7E00/
-│               ├── title.tmd
-│               ├── title.tik
-│               └── 00000000.app
+```sh
+cp src/example.config.json src/config.json   # set http.port
+npm ci --omit=dev
+npm start
 ```
 
-## Disclaimer
-This can theoretically server titles for the 3DS. However it is difficult to test this functionality without fulling working Samurai and Ninja servers. The Hokage repo, https://github.com/PretendoNetwork/Hokage, is being developed for this purpose but it is not yet usable
+## Docs
 
-# NOTE FOR SERVING TICKETS
-### At the moment tickets use a hard-coded path! This is because the WiiU and 3DS request tickets from ECS using a TIV (ticket ID), not the title ID. These TIVs are unique per-ticket per-owner and are generated randomly when a title is purchased by a user, whom the ticket is then assigned. Because of this, there is no standard for converting a TIV->title ID without already knowing which title a TIV is for. In the future this repo will support a JSON config or a database to get this data dynamically, however at the moment you must edit each `ecs.js` file to manually check the requested TIV and serve the correct ticket!
+- [Protocol](docs/protocol.md)
+- [Evidence](docs/evidence.md)
+- [Deploy](docs/deploy.md)
+- [Notes](docs/notes.md)
+- [Upstream README](docs/upstream.md)
+- [Docs index](docs/README.md)
 
-# :warning: WARNING FOR 3DS USERS
-## USING THIS SERVER WITH A 3DS MAY APPEAR TO HAVE DELETED YOUR ALREADY INSTALLED TITLES. YOUR TITLES ARE NOT DELETED, THEIR CONTENT IS STILL ON YOUR CONSOLE/SD CARD. THEY ARE SIMPLY HIDDEN FROM THE HOME SCREEN. TO GET THE TITLES TO APPEAR AGAIN, USE `faketik` BY `ihaveamac` (https://github.com/ihaveamac/faketik, SEE THE FAKETIK NOTICE BELOW)
+## Licence
 
-## THIS IS  DUE TO A SIDE EFFECT OF HOW THE 3DS HANDLES THE TIV LIST FROM THE SOAP SERVER. WHEN THE 3DS GETS A TIV LIST FROM THE SOAP SERVER, IT WILL CHECK IF THE LIST CONTAINS ANY TICKETS IT DOES NO HAVE INSTALLED. IF IT FINDS SEES A TICKET IS MISSING, IT WILL TRY TO DOWNLOAD IT. HOWEVER THE OPPOSITE IS ALSO TRUE. IF THE 3DS HAS A TICKET INSTALLED THAT WAS NOT SENT IN THE TIV LIST, IT WILL DELETE IT FROM THE TICKET DATABASE, WHICH HIDES THE TITLE FROM THE HOME SCREEN. THE ONLY WAY AROUND THIS IS FOR THIS SERVER TO HAVE KNOWLEDGE OF EVERY USERS TIV LIST, WHICH IS NOT CURRENTLY POSSIBLE. AGAIN, YOUR TITLE IS NOT DELETED. ONLY THE TICKET WAS. YOUR TITLE CONTENTS IS STILL ON YOUR CONSOLE
-
-## THIS DOES NOT AFFECT THE WIIU, THIS IS ONLY AN ISSUE ON THE 3DS
-
-# :warning: FAKETIK WARNING
-## FAKETIK WORKS BY INSTALLING FAKE TICKETS TO YOUR CONSOLE TO MAKE HIDDEN TITLES REAPPEAR. HOWEVER IT DOES NOT CREATE _VALID_ TICKETS. THIS MEANS THAT TICKETS MADE BY FAKETIK CAN **NOT** BE USED TO DECRYPT CDN CONTENTS. IF YOU USE FAKETIK AND THEN DELETE A TITLE FROM YOUR CONSOLE/SD CARD, YOU WILL NEED TO ALSO USE HOMEBREW TO REMOVE THE FAKE TICKET AND CONNECT BACK TO NINTENDO'S SERVERS TO RE-DOWNLOAD THE LEGIT TICKET. OTHERWISE YOUR 3DS WILL THINK IT STILL HAS A TICKET FOR THE TITLE, AND TRYING TO RE-INSTALL A TITLE FROM THE ESHOP WILL FAIL AS IT CANNOT BE DECRYPTED WITH THE FAKE TICKET. PLEASE BE MINDFUL OF THIS
+AGPL-3.0-only. See [LICENSE](LICENSE).
