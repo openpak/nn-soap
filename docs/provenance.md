@@ -1,3 +1,9 @@
+# Provenance
+
+Based on [Pretendo `SOAP`](https://github.com/PretendoNetwork/SOAP) (AGPL-3.0). License as upstream; see LICENSE. The upstream README follows verbatim.
+
+---
+
 # Upstream README: nn-soap
 
 # SOAP
