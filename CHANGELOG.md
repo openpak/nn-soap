@@ -3,6 +3,11 @@
 Generated from git history on 2026-09-15. `git log` stays the source
 of truth; this file is the readable summary.
 
+## v0.1.2 — 2026-11-03
+
+- Request log line is now `<method> <path> -> <status> <ms>ms` with no query string (morgan `dev`
+  printed the full URL).
+
 ## v0.1.1 — 2026-09-24
 
 - deps: express 4.22, body-parser, qs, path-to-regexp, send, serve-static, cookie, morgan patched (Dependabot)

@@ -18,7 +18,9 @@ app.disable('x-powered-by');
 
 // Create router
 logger.info('Setting up Middleware');
-app.use(morgan('dev'));
+// One line per request: method, path (never the query, which can carry tokens), status, duration.
+morgan.token('path', request => (request.originalUrl || request.url || '').split('?')[0]);
+app.use(morgan(':method :path -> :status :response-time[0]ms'));
 app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
