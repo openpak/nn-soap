@@ -3,6 +3,10 @@
 Generated from git history on 2026-09-15. `git log` stays the source
 of truth; this file is the readable summary.
 
+## v0.2.1 - 2026-11-04
+
+- The 404 catch-all now logs `unhandled <method> <host> <path>` (v0.2.0 documented it but did not ship it).
+
 ## v0.2.0 - 2026-11-04
 
 - Protocol capture mode (card 124, P0): with `NN_SOAP_CAPTURE_DIR` set every request that reaches the

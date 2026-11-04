@@ -39,6 +39,7 @@ app.use(ctr);
 // 404 handler
 logger.info('Creating 404 status handler');
 app.use((request, response) => {
+	logger.warn(`unhandled ${request.method} ${request.headers.host || '-'} ${(request.originalUrl || request.url || '').split('?')[0]}`);
 	response.status(404);
 	response.send();
 });
