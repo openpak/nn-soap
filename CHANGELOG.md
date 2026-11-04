@@ -3,6 +3,14 @@
 Generated from git history on 2026-09-15. `git log` stays the source
 of truth; this file is the readable summary.
 
+## v0.2.0 - 2026-11-04
+
+- Protocol capture mode (card 124, P0): with `NN_SOAP_CAPTURE_DIR` set every request that reaches the
+  service, including unknown hosts and paths that end in the 404 catch-all, is written to a daily
+  JSON-lines file (method, host, URL, all headers, body, status). Tokens, tickets, passwords, cookies
+  and session handles are masked; files are removed after 90 days. The 404 catch-all also logs
+  `unhandled <method> <host> <path>`. The error handler now has its four-argument form.
+
 ## v0.1.2 — 2026-11-03
 
 - Request log line is now `<method> <path> -> <status> <ms>ms` with no query string (morgan `dev`

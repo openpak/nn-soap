@@ -4,6 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const xmlparser = require('./xml-middleware');
 const logger = require('./logger');
+const capture = require('./capture');
 const config = require('./config.json');
 
 const { http: { port } } = config;
@@ -21,9 +22,13 @@ logger.info('Setting up Middleware');
 // One line per request: method, path (never the query, which can carry tokens), status, duration.
 morgan.token('path', request => (request.originalUrl || request.url || '').split('?')[0]);
 app.use(morgan(':method :path -> :status :response-time[0]ms'));
-app.use(express.json());
+// Full request capture (headers and bodies, secrets masked) when NN_SOAP_CAPTURE_DIR is set.
+capture.init();
+app.use(capture.middleware);
+app.use(express.json({ verify: capture.verify }));
 app.use(express.urlencoded({
-	extended: true
+	extended: true,
+	verify: capture.verify
 }));
 app.use(xmlparser);
 
@@ -40,7 +45,7 @@ app.use((request, response) => {
 
 // non-404 error handler
 logger.info('Creating non-404 status handler');
-app.use((error, request, response) => {
+app.use((error, request, response, _next) => {
 	const status = error.status || 500;
 
 	response.status(status);

@@ -18,6 +18,7 @@ function XMLMiddleware(request, response, next) {
 		});
 
 		request.on('end', () => {
+			request.rawBody = Buffer.from(body, 'utf-8');
 			try {
 				request.body = xmlParser(body);
 				request.body = request.body.toObject();
