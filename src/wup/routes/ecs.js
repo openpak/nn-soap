@@ -6,8 +6,13 @@ const xmlbuilder = require('xmlbuilder');
 const logger = require('../../logger');
 
 router.post('/', (request, response) => {
-	const action = request.headers.soapaction.split('/').pop();
+	// Probes (the status check posts one byte, no SOAPAction) are not SOAP: refuse them cleanly.
+	const soapAction = request.headers.soapaction;
 	const { body: requestBody } = request;
+	if (!soapAction || !(requestBody instanceof Map) || !requestBody.get('SOAP-ENV:Envelope')) {
+		return response.status(400).send();
+	}
+	const action = soapAction.split('/').pop();
 	const body = requestBody.get('SOAP-ENV:Envelope').get('SOAP-ENV:Body');
 
 	console.log(body);
@@ -147,7 +152,7 @@ router.post('/', (request, response) => {
 	if (actionResponse) {
 		response.send(xmlbuilder.create(actionResponse).end());
 	} else {
-		response.status(404);
+		response.status(404).send();
 	}
 });
 
