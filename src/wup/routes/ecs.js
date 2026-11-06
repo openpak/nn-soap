@@ -5,6 +5,12 @@ const fs = require('fs-extra');
 const xmlbuilder = require('xmlbuilder');
 const logger = require('../../logger');
 
+// The console says where it is (ecs:Region EUR, ecs:Country IE); answer with that, and fall back to
+// the old US/USA only when the request leaves it out or sends something that is not a code.
+function reported(value, pattern, fallback) {
+	return typeof value === 'string' && pattern.test(value.trim()) ? value.trim() : fallback;
+}
+
 router.post('/', (request, response) => {
 	// Probes (the status check posts one byte, no SOAPAction) are not SOAP: refuse them cleanly.
 	const soapAction = request.headers.soapaction;
@@ -50,8 +56,8 @@ router.post('/', (request, response) => {
 								Currency: 'USD'
 							},
 							EulaVersion: '0',
-							Country: 'US',
-							Region: 'USA',
+							Country: reported(data.get('ecs:Country'), /^[A-Z]{2}$/, 'US'),
+							Region: reported(data.get('ecs:Region'), /^[A-Z]{3}$/, 'USA'),
 							AccountAttributes: {
 								Name: 'LOYALTY_LOGIN_NAME',
 								Value: ''

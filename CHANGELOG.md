@@ -3,6 +3,11 @@
 Generated from git history on 2026-09-15. `git log` stays the source
 of truth; this file is the readable summary.
 
+## v0.2.2 - 2026-11-06
+
+- ECS answers a request that is not SOAP (no `SOAPAction`, no envelope: the status check's old probe) with 400, and an action it does not handle with 404 instead of leaving the request hanging (card 127).
+- ECS `GetAccountStatus` returns the console's own `Country` and `Region` from the request (`ecs:Country`, `ecs:Region`, e.g. IE and EUR) instead of a fixed US/USA, for Wii U and 3DS. A missing or malformed value falls back to US/USA.
+
 ## v0.2.1 - 2026-11-04
 
 - The 404 catch-all now logs `unhandled <method> <host> <path>` (v0.2.0 documented it but did not ship it).

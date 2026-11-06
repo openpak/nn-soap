@@ -3,6 +3,12 @@
 const router = require('express').Router();
 const xmlbuilder = require('xmlbuilder');
 
+// The console says where it is (ecs:Region EUR, ecs:Country IE); answer with that, and fall back to
+// the old US/USA only when the request leaves it out or sends something that is not a code.
+function reported(value, pattern, fallback) {
+	return typeof value === 'string' && pattern.test(value.trim()) ? value.trim() : fallback;
+}
+
 router.post('/', (request, response) => {
 	const action = request.headers.soapaction.split('/').pop();
 	const { body: requestBody } = request;
@@ -44,8 +50,8 @@ router.post('/', (request, response) => {
 								Currency: 'USD'
 							},
 							EulaVersion: '0',
-							Country: 'US',
-							Region: 'USA',
+							Country: reported(data.get('ecs:Country'), /^[A-Z]{2}$/, 'US'),
+							Region: reported(data.get('ecs:Region'), /^[A-Z]{3}$/, 'USA'),
 							AccountAttributes: {
 								Name: 'LOYALTY_LOGIN_NAME',
 								Value: ''
