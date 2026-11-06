@@ -16,9 +16,16 @@ const PAGE = `<!DOCTYPE html>
 <p id="s">Checking...</p>
 <pre id="o"></pre>
 <script>
-// The applet keeps its splash up until the page ends start-up.
-try { if (window.wiiuBrowser && wiiuBrowser.endStartUp) wiiuBrowser.endStartUp(); } catch (e) {}
-try { if (window.wiiuCurtain && wiiuCurtain.open) wiiuCurtain.open(); } catch (e) {}
+// The applet keeps its splash and loading icon up until the page says start-up is over.
+// Call every hide we know of, now and again once the page has loaded.
+function opReady() {
+	try { if (window.wiiuBrowser && wiiuBrowser.endStartUp) wiiuBrowser.endStartUp(); } catch (e) {}
+	try { if (window.wiiuDialog && wiiuDialog.hideLoading) wiiuDialog.hideLoading(); } catch (e) {}
+	try { if (window.wiiuBrowser && wiiuBrowser.showLoadingIcon) wiiuBrowser.showLoadingIcon(false); } catch (e) {}
+	try { if (window.wiiuCurtain && wiiuCurtain.open) wiiuCurtain.open(); } catch (e) {}
+}
+opReady();
+window.addEventListener('load', function () { opReady(); setTimeout(opReady, 500); });
 (function () {
 	var out = { ua: navigator.userAgent, href: location.href, globals: {} };
 	function kind(v) { try { return v === null ? 'null' : typeof v; } catch (e) { return 'error'; } }
